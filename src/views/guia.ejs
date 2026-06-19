@@ -1,0 +1,29 @@
+<div class="guide-detail">
+  <a href="/repositorio" class="back-link"><i class="bi bi-arrow-left"></i> Volver al repositorio</a>
+
+  <div class="guide-meta">
+    <h1><%= guide.title || 'Guía' %></h1>
+    <div class="meta-row">
+      <% if (guide.bank_area) { %>
+        <span class="card-badge badge-area"><%= guide.bank_area %></span>
+      <% } %>
+      <% if (guide.category) { %>
+        <span class="card-badge badge-category"><%= guide.category %></span>
+      <% } %>
+      <span class="meta-date"><i class="bi bi-calendar3"></i> <%= new Date(guide.created_at).toLocaleDateString('es-PE') %></span>
+    </div>
+    <div class="meta-docs">
+      <i class="bi bi-file-earmark-pdf"></i>
+      Documentos fuente:
+      <%= guide.documents.map(d => d.original_name).join(', ') %>
+    </div>
+  </div>
+
+  <div class="guide-question">
+    <strong>Pregunta:</strong> <%= guide.question %>
+  </div>
+
+  <div class="guide-content">
+    <%- guide.content_md %>
+  </div>
+</div>

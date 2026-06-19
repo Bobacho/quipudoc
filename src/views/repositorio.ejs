@@ -1,0 +1,92 @@
+<h1>Repositorio</h1>
+<p class="subtitle">Explora las guías generadas a partir de documentos del Banco de la Nación.</p>
+
+<div class="search-bar">
+  <form method="GET" action="/repositorio" id="searchForm">
+    <div class="search-row">
+      <div class="search-input-wrap">
+        <i class="bi bi-search search-icon"></i>
+        <input
+          type="text"
+          name="q"
+          class="search-input"
+          placeholder="Buscar guías..."
+          value="<%= filters.q || '' %>"
+        >
+      </div>
+      <button type="button" class="btn btn-outline filter-toggle" onclick="toggleFilters()">
+        <i class="bi bi-funnel"></i> Filtros
+      </button>
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+
+    <div class="filter-panel" id="filterPanel" style="display: <%= Object.values(filters).some(v => v) ? 'flex' : 'none' %>">
+      <div class="filter-group">
+        <label for="bankArea">Área del banco</label>
+        <select name="bankArea" id="bankArea">
+          <option value="">Todas</option>
+          <% bankAreas.forEach(a => { %>
+            <option value="<%= a %>" <%= filters.bankArea === a ? 'selected' : '' %>><%= a %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="category">Categoría</label>
+        <select name="category" id="category">
+          <option value="">Todas</option>
+          <% categories.forEach(c => { %>
+            <option value="<%= c %>" <%= filters.category === c ? 'selected' : '' %>><%= c %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="dateFrom">Desde</label>
+        <input type="date" name="dateFrom" id="dateFrom" value="<%= filters.dateFrom || '' %>">
+      </div>
+      <div class="filter-group">
+        <label for="dateTo">Hasta</label>
+        <input type="date" name="dateTo" id="dateTo" value="<%= filters.dateTo || '' %>">
+      </div>
+      <div class="filter-actions">
+        <a href="/repositorio" class="btn btn-sm btn-outline">Limpiar</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="guides-grid">
+  <% if (guides.length === 0) { %>
+    <div class="empty-state">
+      <i class="bi bi-journal-text"></i>
+      <p>No hay guías todavía. Ve a <a href="/tutorial">Tutorial</a> para crear una.</p>
+    </div>
+  <% } %>
+  <% guides.forEach(guide => { %>
+    <a href="/guia/<%= guide.id %>" class="guide-card">
+      <div class="card-header">
+        <span class="card-badge badge-area"><%= guide.bank_area || 'General' %></span>
+        <% if (guide.category) { %>
+          <span class="card-badge badge-category"><%= guide.category %></span>
+        <% } %>
+      </div>
+      <h3 class="card-title"><%= guide.title || 'Guía' %></h3>
+      <p class="card-summary">
+        <%= guide.summary
+          ? (guide.summary.length > 256 ? guide.summary.substring(0, 256) + '…' : guide.summary)
+          : 'Sin resumen disponible.'
+        %>
+      </p>
+      <div class="card-footer">
+        <span class="card-date"><i class="bi bi-calendar3"></i> <%= new Date(guide.created_at).toLocaleDateString('es-PE') %></span>
+        <span class="card-docs"><i class="bi bi-file-earmark-pdf"></i> <%= guide.documents.length %> docs</span>
+      </div>
+    </a>
+  <% }) %>
+</div>
+
+<script>
+function toggleFilters() {
+  const panel = document.getElementById('filterPanel');
+  panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+}
+</script>
