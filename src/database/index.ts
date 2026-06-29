@@ -1,7 +1,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import path from 'path';
 
-const DB_PATH = path.join(__dirname, '..', '..', 'quipudoc.db');
+const DB_PATH = path.join(__dirname, '..', 'quipudoc.db');
 
 interface GuideRow {
   id: number;
