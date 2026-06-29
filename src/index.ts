@@ -1,7 +1,8 @@
-require('dotenv').config();
-const express = require('express');
-const path = require('path');
-const routes = require('./routes');
+import 'dotenv/config';
+import express from 'express';
+import path from 'path';
+import routes from './routes';
+import chatRoutes from './routes/chat';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(routes);
+app.use(chatRoutes);
 
 app.listen(PORT, () => {
   console.log(`quipudoc corriendo en http://localhost:${PORT}`);

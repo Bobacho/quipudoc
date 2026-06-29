@@ -105,6 +105,28 @@ body {
   margin-bottom: 24px;
 }
 
+/* ─── Page header ─── */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin-bottom: 4px;
+}
+
+.page-header .subtitle {
+  margin-bottom: 0;
+}
+
+.page-header .btn {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
 /* ─── Search bar ─── */
 .search-bar {
   margin-bottom: 28px;
@@ -586,4 +608,125 @@ body {
 
 .chat-send:hover {
   background: #8A1E24;
+}
+
+/* ─── Form ─── */
+.form-container {
+  max-width: 720px;
+}
+
+.form-container h1 {
+  margin-bottom: 28px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 6px;
+}
+
+.form-required {
+  color: #AF272F;
+  margin-left: 2px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #1A1A1A;
+  background: #FFFFFF;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-color: #AF272F;
+  box-shadow: 0 0 0 3px rgba(175, 39, 47, 0.15);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #9CA3AF;
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.form-help {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #9CA3AF;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #F3F4F6;
+}
+
+/* ─── File rows (repeatable) ─── */
+.file-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.file-row .form-input {
+  flex: 1;
+}
+
+.btn-remove-file {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #AF272F;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-remove-file:hover {
+  background: #FDF2F2;
+  border-color: #AF272F;
+}
+
+.btn-add-file {
+  margin-top: 4px;
 }

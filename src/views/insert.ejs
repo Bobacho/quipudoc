@@ -1,0 +1,148 @@
+<div class="form-container">
+  <h1><%= formModel.title %></h1>
+
+  <form action="<%= formModel.action %>" method="<%= (formModel.method || 'POST').toLowerCase() %>" enctype="multipart/form-data">
+    <% const vals = typeof values !== 'undefined' ? values : {}; %>
+
+    <% formModel.fields.forEach(function(field) { %>
+      <% if (field.type === 'hidden') { %>
+        <input type="hidden" name="<%= field.name %>" value="<%= vals[field.name] || '' %>">
+        <% return; %>
+      <% } %>
+
+      <div class="form-group">
+        <label class="form-label" for="<%= field.name %>">
+          <%= field.label %>
+          <% if (field.required) { %><span class="form-required">*</span><% } %>
+        </label>
+
+        <% if (field.type === 'textarea') { %>
+          <textarea
+            class="form-textarea"
+            id="<%= field.name %>"
+            name="<%= field.name %>"
+            <%= field.required ? 'required' : '' %>
+            placeholder="<%= field.placeholder || '' %>"
+          ><%= vals[field.name] || '' %></textarea>
+
+        <% } else if (field.type === 'select') { %>
+          <select
+            class="form-select"
+            id="<%= field.name %>"
+            name="<%= field.name %>"
+            <%= field.required ? 'required' : '' %>
+          >
+            <option value="">Seleccionar...</option>
+            <% (field.options || []).forEach(function(opt) { %>
+              <option value="<%= opt.value %>" <%= vals[field.name] === opt.value ? 'selected' : '' %>>
+                <%= opt.label %>
+              </option>
+            <% }); %>
+          </select>
+
+        <% } else if (field.type === 'file' && field.repeatable) { %>
+          <div class="file-rows" data-field="<%= field.name %>">
+            <div class="file-row">
+              <input
+                class="form-input"
+                type="file"
+                name="<%= field.name %>"
+                <%= field.required ? 'required' : '' %>
+              >
+              <button type="button" class="btn-remove-file" title="Eliminar archivo" style="display:none">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline btn-add-file" data-field="<%= field.name %>">
+            <i class="bi bi-plus-lg"></i> Agregar archivo
+          </button>
+
+        <% } else if (field.type === 'file') { %>
+          <input
+            class="form-input"
+            type="file"
+            id="<%= field.name %>"
+            name="<%= field.name %>"
+            <%= field.required ? 'required' : '' %>
+          >
+
+        <% } else { %>
+          <input
+            class="form-input"
+            type="<%= field.type %>"
+            id="<%= field.name %>"
+            name="<%= field.name %>"
+            value="<%= vals[field.name] || '' %>"
+            <%= field.required ? 'required' : '' %>
+            placeholder="<%= field.placeholder || '' %>"
+          >
+        <% } %>
+
+        <% if (field.helpText) { %>
+          <p class="form-help"><%= field.helpText %></p>
+        <% } %>
+      </div>
+    <% }); %>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-lg"></i> <%= formModel.submitLabel || 'Guardar' %>
+      </button>
+      <% if (formModel.cancelUrl) { %>
+        <a href="<%= formModel.cancelUrl %>" class="btn btn-outline">
+          <i class="bi bi-x-lg"></i> Cancelar
+        </a>
+      <% } %>
+    </div>
+  </form>
+</div>
+
+<template id="file-row-template">
+  <div class="file-row">
+    <input class="form-input" type="file" name="">
+    <button type="button" class="btn-remove-file" title="Eliminar archivo">
+      <i class="bi bi-trash"></i>
+    </button>
+  </div>
+</template>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.btn-add-file').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var container = this.closest('.form-group').querySelector('.file-rows');
+      var template = document.getElementById('file-row-template');
+      var clone = template.content.cloneNode(true);
+      var row = clone.querySelector('.file-row');
+      row.querySelector('input').name = container.dataset.field;
+      container.appendChild(clone);
+      updateRemoveButtons(container);
+    });
+  });
+
+  document.querySelectorAll('.file-rows').forEach(function (container) {
+    container.addEventListener('click', function (e) {
+      var btn = e.target.closest('.btn-remove-file');
+      if (btn) {
+        var row = btn.closest('.file-row');
+        if (row && container.children.length > 1) {
+          row.remove();
+          updateRemoveButtons(container);
+        }
+      }
+    });
+    updateRemoveButtons(container);
+  });
+
+  function updateRemoveButtons(container) {
+    var rows = container.querySelectorAll('.file-row');
+    rows.forEach(function (row, index) {
+      var btn = row.querySelector('.btn-remove-file');
+      if (btn) {
+        btn.style.display = rows.length > 1 ? '' : 'none';
+      }
+    });
+  }
+});
+</script>
