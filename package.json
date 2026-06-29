@@ -19,7 +19,8 @@
     "express": "^5.2.1",
     "marked": "^18.0.5",
     "multer": "^2.2.0",
-    "pdf-parse": "^2.4.5"
+    "pdf-parse": "^2.4.5",
+    "@napi-rs/canvas": "^1.0.1"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5",
